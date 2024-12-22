@@ -35,10 +35,17 @@ jobs:
           oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
           version: latest
           tags: tag:server
-    
+    - name: Setup SSH
+          run: |
+            mkdir -p ~/.ssh/
+            echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+            echo "${{ secrets.SSH_PUBLIC_KEY }}" > ~/.ssh/id_rsa.pub
+            chmod 600 ~/.ssh/id_rsa
+            chmod 600 ~/.ssh/id_rsa.pub
+            ssh-keyscan -H ${{ secrets.VPS_IP }} >> ~/.ssh/known_hosts
     - name: Deploy to Local Server
       run: | 
-        ssh -o StrictHostKeyChecking=no -p 3333 ${{secrets.VPS_USERNAME}}@${{secrets.VPS_IP}}
+        ssh -p 3333 ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }}
         docker image pull ${{ secrets.DOCKERHUB_USERNAME }}/productservice:late
         docker container run -d -p 8080:80 --name .netapp ${{ secrets.DOCKERHUB_USERNAME }}/productservice:late
           
