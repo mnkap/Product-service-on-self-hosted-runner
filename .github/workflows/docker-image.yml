@@ -42,17 +42,17 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
     - name: Add Host Key
-        run: |
+      run: |
           mkdir -p ~/.ssh
           ssh-keyscan -H ${{ secrets.VPS_IP }} >> ~/.ssh/known_hosts
 
     - name: Set Permissions
-        run: |
+      run: |
           chmod 700 ~/.ssh
           chmod 600 ~/.ssh/known_hosts
 
     - name: Deploy to Local Server
-        run: |
+      run: |
           ssh -o StrictHostKeyChecking=no -p 3333 ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }} << 'EOF'
               docker image pull ${{ secrets.DOCKERHUB_USERNAME }}/productservice:late
               docker container run -d -p 8080:80 --name .netapp ${{ secrets.DOCKERHUB_USERNAME }}/productservice:late
