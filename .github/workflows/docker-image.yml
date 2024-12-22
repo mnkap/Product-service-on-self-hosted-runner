@@ -38,6 +38,6 @@ jobs:
 
     - name: Deploy to Local Server
       run: |
-        docker container run -d -p 8080:80 --name netapp ${{ secrets.DOCKERHUB_USERNAME }}/productservice:late
+        docker container run -d -p 8080:80 --name netapp ${{ secrets.DOCKERHUB_USERNAME }}/productservice
             
         
