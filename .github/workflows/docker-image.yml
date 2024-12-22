@@ -43,7 +43,6 @@ jobs:
 
     - name: Add Host Key
       run: |
-          mkdir -p ~/.ssh
           ssh-keyscan -H ${{ secrets.VPS_IP }} >> ~/.ssh/known_hosts
 
     - name: Set Permissions
