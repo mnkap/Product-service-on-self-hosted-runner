@@ -22,3 +22,20 @@ jobs:
           context: .
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/productservice:latest
+       
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Checkout code
+          uses: actions/checkout@v2
+              
+        - name: Connect to Tailscale
+          uses: tailscale/github-action@v1
+          with:
+            authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
+        - name: Deploy to Local Server
+          run: |
+              ssh user@${{secrets.VPS_IP}}
+              docker image pull ${{ secrets.DOCKERHUB_USERNAME }}/productservice:late
+              docker container run -d -p 8080:80--name .netapp -p ${{ secrets.DOCKERHUB_USERNAME }}/productservice:late
+        
