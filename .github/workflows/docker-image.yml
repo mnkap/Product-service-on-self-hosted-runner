@@ -45,11 +45,11 @@ jobs:
         chmod 600 ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa.pub
     - name: Debugging Information
-        run: |
-          echo "Current Directory:"
-          pwd
-          echo "Environment Variables:"
-          env
+      run: |
+        echo "Current Directory:"
+        pwd
+        echo "Environment Variables:"
+        env
     - name: Deploy to Local Server
       run: | 
         ssh -o StrictHostKeyChecking=no -p 3333 ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }}
