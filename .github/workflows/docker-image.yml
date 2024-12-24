@@ -43,7 +43,7 @@ jobs:
       - name: Deploy local server
         run: |
             eval $(ssh-agent -s)
-            ssh-add <(echo "$SSH_PRIVATE_KEY")
+            ssh-add <(echo "$SSH_KEY_GITHUB_ACTIONS")
             docker image pull ${{ secrets.DOCKERHUB_USERNAME }}/productservice:latest
             docker container run -d -p 8080:80 --name netapp ${{ secrets.DOCKERHUB_USERNAME }}/productservice:latest
         
