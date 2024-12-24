@@ -9,7 +9,7 @@ env:
   DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
   VPS_USERNAME: ${{ secrets.VPS_USERNAME }}
   VPS_IP: ${{ secrets.VPS_IP }}
-  PORT: ${{ PORT }}
+  PORT: ${{ secrets.PORT }}
                       
 jobs:
   build-push-attempt:
