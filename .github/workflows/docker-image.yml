@@ -40,7 +40,7 @@ jobs:
    
 
     - name: Deploy to Local Server
-      uses: appleboy/ssh-action@@v1.2.0
+      uses: appleboy/ssh-action@v1.2.0
       with:
         host: ${{ secrets.VPS_IP }}
         username: ${{ secrets.SSH_USERNAME }}
