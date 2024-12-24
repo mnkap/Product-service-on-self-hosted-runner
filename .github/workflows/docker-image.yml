@@ -44,13 +44,11 @@ jobs:
           oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
           oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
           tags: tag:server
-      - name: Start Deployment
-        uses: FarisZR/tailscale-ssh-deploy@v1
-        with:
-            remote_host: ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }}
-            directory: generated
-            remote_destination: /root/home
-            post_upload_command: docker image pull ${{ secrets.DOCKERHUB_USERNAME }}/productservice:latest
+      - name: Deploy local server
+        runs: |
+          ssh -p ${{ secrets.PORT }} -o StrictHostKeyChecking=no ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }}
+          docker image pull ${{ secrets.DOCKERHUB_USERNAME/productservice:latest }}
+          docker container run -d -p 8080:80 --name netapp ${{ secrets.DOCKERHUB_USERNAME }}/productservice:latest
     
           
       # - name: Deploy local server
