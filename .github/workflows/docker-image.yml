@@ -4,13 +4,8 @@ on:
   push:
     branches:
       - main
-env:
-  SSH_KEY_GITHUB_ACTIONS: ${{ secrets.SSH_PRIVATE_KEY }}
-  DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-  VPS_USERNAME: ${{ secrets.VPS_USERNAME }}
-  VPS_IP: ${{ secrets.VPS_IP }}
-  PORT: ${{ secrets.PORT }}
-                      
+    
+      
 jobs:
   build-push-attempt:
     runs-on: ubuntu-latest
