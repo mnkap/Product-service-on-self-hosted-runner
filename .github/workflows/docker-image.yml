@@ -42,7 +42,7 @@ jobs:
       - name: Deploy local server
         run: |
             ssh -p ${{ secrets.PORT }} -o StrictHostKeyChecking=no ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }}
-            docker image pull ${{ secrets.DOCKERHUB_USERNAME/productservice:latest }}
+            docker image pull ${{ secrets.DOCKERHUB_USERNAME }}/productservice:latest }}
             docker container run -d -p 8080:80 --name netapp ${{ secrets.DOCKERHUB_USERNAME }}/productservice:latest
     
           
