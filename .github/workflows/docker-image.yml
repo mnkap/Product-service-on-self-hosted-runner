@@ -35,7 +35,13 @@ jobs:
         tags: tag:server
 
     - name: Deploy to Local Server
-      run: |
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.VPS_IP }}
+        username: ${{ secrets.SSH_USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        post: ${{ secrets.port }}
+        script: |
           docker image pull ${{ secrets.DOCKERHUB_USERNAME }}/productservice:latest
           docker container run -d -p 8080:80 --name netapp ${{ secrets.DOCKERHUB_USERNAME }}/productservice:latest
         
