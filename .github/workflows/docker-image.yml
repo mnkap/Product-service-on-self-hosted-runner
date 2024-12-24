@@ -26,8 +26,6 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
     - name: Connect to Tailscale
       uses: tailscale/github-action@v3
       with:
@@ -38,8 +36,8 @@ jobs:
 
     - name: Deploy to Local Server
       run: |
-          ssh -o StrictHostKeyChecking=no -p 3333 ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }} << 'EOF'
-              docker image pull ${{ secrets.DOCKERHUB_USERNAME }}/productservice:late
-              docker container run -d -p 8080:80 --name .netapp ${{ secrets.DOCKERHUB_USERNAME }}/productservice:late
-            EOF
+          ssh -o StrictHostKeyChecking=no -p 3333 UserKnownHostsFile=/dev/null ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }}
+          docker image pull ${{ secrets.DOCKERHUB_USERNAME }}/productservice:late
+          docker container run -d -p 8080:80 --name .netapp ${{ secrets.DOCKERHUB_USERNAME }}/productservice:late
+        
         
