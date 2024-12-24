@@ -7,6 +7,9 @@ on:
 env:
   SSH_KEY_GITHUB_ACTIONS: ${{ secrets.SSH_PRIVATE_KEY }}
   DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+  VPS_USERNAME: ${{ secrets.VPS_USERNAME }}
+  VPS_IP: ${{ secrets.VPS_IP }}
+  PORT: ${{ PORT }}
                       
 jobs:
   build-push-attempt:
@@ -45,6 +48,7 @@ jobs:
         run: |
             eval $(ssh-agent -s)
             ssh-add <(echo "$SSH_KEY_GITHUB_ACTIONS")
+            ssh -p "$PORT" -o StrictHostKeyChecking=no "$VPS_USERNAME"@"$VPS_IP"
             docker image pull "$DOCKERHUB_USERNAME"/productservice:latest
             docker container run -d -p 8080:80 --name netapp "$DOCKERHUB_USERNAME"/productservice:latest
         
