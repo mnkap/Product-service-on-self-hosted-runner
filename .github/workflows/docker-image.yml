@@ -47,7 +47,7 @@ jobs:
       - name: Deploy local server
         run: |
             eval $(ssh-agent -s)
-            ssh-add <(echo "$SSH_KEY_GITHUB_ACTIONS")
+            echo "$SSH_KEY_GITHUB_ACTIONS" | ssh-add -
             echo "Connecting to VPS: $VPS_USERNAME@$VPS_IP"
 
             ssh -p "$PORT" -o StrictHostKeyChecking=no "$VPS_USERNAME"@"$VPS_IP" << 'EOF'
