@@ -40,7 +40,7 @@ jobs:
         host: ${{ secrets.VPS_IP }}
         username: ${{ secrets.SSH_USERNAME }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
-        post: ${{ secrets.PORT }}
+        port: ${{ secrets.PORT }}
         script: |
           docker image pull ${{ secrets.DOCKERHUB_USERNAME }}/productservice:latest
           docker container run -d -p 8080:80 --name netapp ${{ secrets.DOCKERHUB_USERNAME }}/productservice:latest
