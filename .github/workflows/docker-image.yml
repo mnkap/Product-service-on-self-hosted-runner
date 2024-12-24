@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+env:
+  SSH_KEY_GITHUB_ACTIONS: ${{ secrets.SSH_PRIVATE_KEY }}
 
 jobs:
   build-push-attempt:
@@ -32,14 +34,10 @@ jobs:
           oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
           oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
           tags: tag:server
-      - name: Deploy
-        uses: appleboy/ssh-action@v1.2.0
-        with:
-          host: ${{ secrets.VPS_IP }}
-          username: ${{ secrets.VPS_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: ${{ secrets.PORT }}
-          script: |
+      - name: Deploy local server
+        run: |
+            eval $(ssh-agent -s)
+            ssh-add <(echo "$SSH_PRIVATE_KEY")
             docker image pull ${{ secrets.DOCKERHUB_USERNAME }}/productservice:latest
             docker container run -d -p 8080:80 --name netapp ${{ secrets.DOCKERHUB_USERNAME }}/productservice:latest
         
