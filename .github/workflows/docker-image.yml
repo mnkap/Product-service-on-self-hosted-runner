@@ -41,7 +41,7 @@ jobs:
           tags: tag:server
       - name: Deploy local server
         run: |
-          tailscale ssh -p 3333 -o StrictHostKeyChecking=no ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }}
+             ssh -p 3333 -o StrictHostKeyChecking=no ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }}
     
           
       # - name: Deploy local server
