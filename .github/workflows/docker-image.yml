@@ -36,7 +36,6 @@ jobs:
 
     - name: Deploy to Local Server
       run: |
-          ssh -o StrictHostKeyChecking=no -p 3333 -o UserKnownHostsFile=/dev/null ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }}
           docker image pull ${{ secrets.DOCKERHUB_USERNAME }}/productservice:late
           docker container run -d -p 8080:80 --name .netapp ${{ secrets.DOCKERHUB_USERNAME }}/productservice:late
         
