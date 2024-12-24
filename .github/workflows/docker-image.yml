@@ -39,6 +39,7 @@ jobs:
           host: ${{ secrets.VPS_IP }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PUBLIC_KEY }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.PORT }}
           script: |
             docker image pull ${{ secrets.DOCKERHUB_USERNAME }}/productservice:latest
