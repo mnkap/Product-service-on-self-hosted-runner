@@ -44,15 +44,22 @@ jobs:
           oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
           oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
           tags: tag:server
-      - name: Deploy local server
-        run: |
-            eval $(ssh-agent -s)
-            echo "$SSH_KEY_GITHUB_ACTIONS" | ssh-add -
-            echo "Connecting to VPS: $VPS_USERNAME@$VPS_IP"
+      - name: Start Deployment
+        uses: FarisZR/tailscale-ssh-deploy@v1
+        with:
+            remote_host: ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }}
+        post_upload_command: docker image pull "$DOCKERHUB_USERNAME"/productservice:latest
+    
+          
+      # - name: Deploy local server
+      #   run: |
+      #       eval $(ssh-agent -s)
+      #       echo "$SSH_KEY_GITHUB_ACTIONS" | ssh-add -
+      #       echo "Connecting to VPS: $VPS_USERNAME@$VPS_IP"
 
-            ssh -p "$PORT" -o StrictHostKeyChecking=no "$VPS_USERNAME"@"$VPS_IP" << 'EOF'
-            docker image pull "$DOCKERHUB_USERNAME"/productservice:latest
-            docker container run -d -p 8080:80 --name netapp "$DOCKERHUB_USERNAME"/productservice:latest
-            EOF
+      #       ssh -p "$PORT" -o StrictHostKeyChecking=no "$VPS_USERNAME"@"$VPS_IP" << 'EOF'
+      #       docker image pull "$DOCKERHUB_USERNAME"/productservice:latest
+      #       docker container run -d -p 8080:80 --name netapp "$DOCKERHUB_USERNAME"/productservice:latest
+      #       EOF
         
         
