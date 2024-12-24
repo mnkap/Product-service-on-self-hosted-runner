@@ -37,22 +37,17 @@ jobs:
         version: latest
         tags: tag:server
 
-    - name: SSH into Local Server
-      run: |
-          ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} ubuntu22@$100.76.23.118
-      env:
-          TAILSCALE_OAUTH_CLIENT_ID: ${{ secrets.TS_OAUTH_CLIENT_ID }}
-          TAILSCALE_OAUTH_SECRET: ${{ secrets.TS_OAUTH_SECRET }}
+   
 
-    # - name: Deploy to Local Server
-    #   uses: appleboy/ssh-action@master
-    #   with:
-    #     host: ${{ secrets.VPS_IP }}
-    #     username: ${{ secrets.SSH_USERNAME }}
-    #     key: ${{ secrets.SSH_PRIVATE_KEY }}
-    #     port: ${{ secrets.PORT }}
-    #     script: |
-    #       docker image pull ${{ secrets.DOCKERHUB_USERNAME }}/productservice:latest
-    #       docker container run -d -p 8080:80 --name netapp ${{ secrets.DOCKERHUB_USERNAME }}/productservice:latest
+    - name: Deploy to Local Server
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.VPS_IP }}
+        username: ${{ secrets.SSH_USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: ${{ secrets.PORT }}
+        script: |
+          docker image pull ${{ secrets.DOCKERHUB_USERNAME }}/productservice:latest
+          docker container run -d -p 8080:80 --name netapp ${{ secrets.DOCKERHUB_USERNAME }}/productservice:latest
         
         
