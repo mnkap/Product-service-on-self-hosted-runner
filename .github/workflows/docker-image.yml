@@ -34,7 +34,7 @@ jobs:
           version: latest
           tags: tag:server
       - name: Deploy
-          run: |
+        run: |
               ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p 3333 ${{ secrets.SSH_USERNAME }}@${{ secrets.VPS_IP }}
               docker image pull ${{ secrets.DOCKERHUB_USERNAME }}/productservice:latest
               docker container run -d -p 8080:80 --name netapp ${{ secrets.DOCKERHUB_USERNAME }}/productservice:latest
