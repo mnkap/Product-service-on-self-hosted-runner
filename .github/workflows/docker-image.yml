@@ -48,7 +48,7 @@ jobs:
         uses: FarisZR/tailscale-ssh-deploy@v1
         with:
             remote_host: ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }}
-        post_upload_command: docker image pull ${{ secrets.DOCKERHUB_USERNAME }}/productservice:latest
+            post_upload_command: docker image pull ${{ secrets.DOCKERHUB_USERNAME }}/productservice:latest
     
           
       # - name: Deploy local server
