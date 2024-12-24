@@ -33,7 +33,7 @@ jobs:
           oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
           version: latest
           tags: tag:server
-      - name: deploy
+      - name: Deploy
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.VPS_IP }}
