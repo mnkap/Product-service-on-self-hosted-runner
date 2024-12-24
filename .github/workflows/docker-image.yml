@@ -38,9 +38,9 @@ jobs:
         tags: tag:server
 
     - name: SSH into Local Server
-        run: |
+      run: |
           ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} user@<your-tailscale-ip>
-        env:
+      env:
           TAILSCALE_OAUTH_CLIENT_ID: ${{ secrets.TS_OAUTH_CLIENT_ID }}
           TAILSCALE_OAUTH_SECRET: ${{ secrets.TS_OAUTH_SECRET }}
 
