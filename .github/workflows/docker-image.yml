@@ -41,8 +41,7 @@ jobs:
           tags: tag:server
       - name: Deploy local server
         run: |
-            ssh -p ${{ secrets.PORT }} -o StrictHostKeyChecking=no ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }} << 'EOF'
-            
+          ssh -p ${{ secrets.PORT }} -o StrictHostKeyChecking=no ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }} << 'EOF'
             docker image pull ${{ secrets.DOCKERHUB_USERNAME }}/productservice:latest
             docker container stop netapp || true
             docker container rm netapp || true
