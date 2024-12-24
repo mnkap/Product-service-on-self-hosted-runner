@@ -33,7 +33,7 @@ jobs:
           oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
           version: latest
           tags: tag:server
-          runs: |
+          run: |
               docker image pull ${{ secrets.DOCKERHUB_USERNAME }}/productservice:latest
               docker container run -d -p 8080:80 --name netapp ${{ secrets.DOCKERHUB_USERNAME }}/productservice:latest
       # - name: Deploy to Local Server
