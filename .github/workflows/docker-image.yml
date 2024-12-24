@@ -48,8 +48,11 @@ jobs:
         run: |
             eval $(ssh-agent -s)
             ssh-add <(echo "$SSH_KEY_GITHUB_ACTIONS")
-            ssh -p "$PORT" -o StrictHostKeyChecking=no "$VPS_USERNAME"@"$VPS_IP"
+            echo "Connecting to VPS: $VPS_USERNAME@$VPS_IP"
+
+            ssh -p "$PORT" -o StrictHostKeyChecking=no "$VPS_USERNAME"@"$VPS_IP" << 'EOF'
             docker image pull "$DOCKERHUB_USERNAME"/productservice:latest
             docker container run -d -p 8080:80 --name netapp "$DOCKERHUB_USERNAME"/productservice:latest
+            EOF
         
         
