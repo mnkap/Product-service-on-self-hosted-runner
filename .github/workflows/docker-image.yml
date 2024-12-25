@@ -26,6 +26,7 @@ jobs:
        
   deploy:
     runs-on: self-hosted
+    needs: build-push-attempt
     steps:
       - name: Checkout
         uses: actions/checkout@v3
