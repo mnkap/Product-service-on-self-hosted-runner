@@ -8,7 +8,7 @@ on:
       
 jobs:
   build-push-attempt:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -25,34 +25,14 @@ jobs:
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/productservice:latest
        
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-        with:
-          submodules: recursive
-          fetch-depth: 0
-    
-      - name: Connect to Tailscale
-        uses: tailscale/github-action@v3
-        with:
-          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
-          oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
-          tags: tag:server
+   
       - name: Deploy local server
         run: |
              ssh -p 3333 -o StrictHostKeyChecking=no ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }}
-    
-          
-      # - name: Deploy local server
-      #   run: |
-      #       eval $(ssh-agent -s)
-      #       echo "$SSH_KEY_GITHUB_ACTIONS" | ssh-add -
-      #       echo "Connecting to VPS: $VPS_USERNAME@$VPS_IP"
-
-      #       ssh -p "$PORT" -o StrictHostKeyChecking=no "$VPS_USERNAME"@"$VPS_IP" << 'EOF'
-      #       docker image pull "$DOCKERHUB_USERNAME"/productservice:latest
-      #       docker container run -d -p 8080:80 --name netapp "$DOCKERHUB_USERNAME"/productservice:latest
-      #       EOF
-        
+             docker image pull ${{ secrets.DOCKERHUB_USERNAME }}/productservice:latest
+             docker container run -d -p 8080:80 --name netapp ${{ secrets.DOCKERHUB_USERNAME }}/productservice:latest
         
