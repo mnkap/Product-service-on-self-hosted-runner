@@ -33,7 +33,7 @@ jobs:
    
       - name: Deploy local server
         run: |
-             docker rm $(docker ps -aq -f status=exited)
+             docker rm -f $(docker ps -aq)
              docker image pull ${{ secrets.DOCKERHUB_USERNAME }}/productservice:latest
              docker container run -d -p 8080:80 --name netapp ${{ secrets.DOCKERHUB_USERNAME }}/productservice:latest
         
